@@ -43,38 +43,46 @@ The instructions were adapted from https://github.com/IBMAppModernization/app-mo
 
 1. Login in [your Github account](https://github.com)
 
-2. In the search bar at the top left type in `app-modernization-plants-by-websphere-jee6`
+1. In the search bar at the top left type in `app-modernization-plants-by-websphere-jee6`
 
     ![Search results](images/ss0.png)
 
-3. Select the repository `IBMAppModernization\app-modernization-plants-by-websphere-jee6` and then click on the **Fork** icon
+1. Select the repository `IBMAppModernization\app-modernization-plants-by-websphere-jee6` and then click on the **Fork** icon
 
-4. Click the **Clone or download** button from your copy of the forked repo and copy the HTTPS URL to your clipboard
+1. Click the **Clone or download** button from your copy of the forked repo and copy the HTTPS URL to your clipboard
 
     ![Clone URL](images/ss00.png)
 
-5. From a client terminal window clone the Git repo  with  the following commands  appending the HTTPS URL from your clipboard
+1. From a client terminal window clone the Git repo  with  the following commands  appending the HTTPS URL from your clipboard
 
     ```text
-    cd  ~
+    cd  /userdata (or your preferred folders)
     git clone [HTTPS URL for NEW REPO]
     cd app-modernization-plants-by-websphere-jee6
     ```
-6. Build the application .ear file using Maven by typing in (or copying and pasting in) the following command
+1. Build the application .ear file using Maven by typing in (or copying and pasting in) the following command
 
     ```text
     mvn package
     ```
 
-7. Add a new name space in registry to store your docker image
+1. Optionally, create a new name space in container registry to store your docker image.
 
     ```
-    ibmcloud  cr  namespace-add  ups_[your initial]
-    export CRNAMESPACE=ups_[your initial]
+    ibmcloud  cr  namespace-add  [your Name Space]
     ```
+
+    > Note: only execute the above command when you are instructed to do so.
+
     > Note: the new name space `ups_[your initial]` must be unique in the entire registry. If the new name space is not unique, change it slightly and try again.
+    
+1. Set an environment variable holding the value of your `container regsitry name space` which is provided by workshop instructors.
 
-8. Build a docker image  by typing in (or copying and pasting in) the following (uncommented) commands
+    ```
+    export CRNAMESPACE=[your Name Space]
+    ```
+
+1. Build a docker image  by typing in (or copying and pasting in) the following (uncommented) commands
 
     >Note: if you don't have the environment variables in the command set, replace $CRNAMESPACE with your container registry namespace and $USERNAME with your lab user id.
 
@@ -82,13 +90,13 @@ The instructions were adapted from https://github.com/IBMAppModernization/app-mo
     docker build -t us.icr.io/$CRNAMESPACE/$USERNAME/pbw-mariadb-web:1.0.0 .
     ```
 
-9. Log in to the Container registry with the following command:
+1. Log in to the Container registry with the following command:
 
     ```bash
     ibmcloud  cr login
     ```
 
-10. Push the image to the IBM Container registry by typing in (or copying and pasting in) the following (uncommented) commands
+1. Push the image to the IBM Container registry by typing in (or copying and pasting in) the following (uncommented) commands
 
     >Note: if you don't have the environment variables in the command set, replace $CRNAMESPACE with your container registry namespace and $USERNAME with your lab user id.
 
